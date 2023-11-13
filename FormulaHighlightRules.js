@@ -4,10 +4,13 @@ define(function(require, exports, module) {
   var oop = require("../lib/oop");
   var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
 
+  var eqOperator1 = /(\w+)(\s)+(EQCONST|=)(\s+)([\w"\[\]]+)/;
+
+  var eqOperator2 = /([\w"\[\]]+)(\s)+(EQCONST|=)(\s+)(\w+)/;
+
   var logicalOperators =
       "TRUE|⊤|" +
       "FALSE|⊥|" +
-      "EQCONST|=|" +
       "NOT|¬|" +
       "AND|∧|" +
       "OR|∨|" +
@@ -31,7 +34,7 @@ define(function(require, exports, module) {
       "EXISTS|∃|" +
       "FORALL|∀";
 
-  var MyNewHighlightRules = function() {
+  var HighlightRules = function() {
 
     this.$rules = {
       "start" : [ {
@@ -47,50 +50,66 @@ define(function(require, exports, module) {
         regex : logicalOperators,
         next : "start"
       }, {
-        defaultToken : "text"
-      } ],
-
-      "leftparen" : [ {
         token : "text",
-        regex : /[(]/,
-        next : "variableorconst"
-      } ],
+        regex : /(\(+)|(\)+)/,
+        next : "start"
+      }, {
+        token : ["variable.parameter", "text", "keyword.operator", "text", "string"],
+        regex : eqOperator1,
+        next : "start"
+      }, {
+        token : ["string", "text", "keyword.operator", "text", "variable.parameter"],
+        regex : eqOperator2,
+        next : "start"
+      }, {
+        token : "text",
+        regex : /\w+/,
+        next : "terms"
+      }],
 
-      "variableorconst" : [ {
+      "terms" : [ {
         token : "constant.character",
-        regex : /[\w]+|"[\w]+"/,
-        next : "comma"
-      } ],
-
-      "rightparen" : [ {
+        regex : /[\w]+/,
+        next : "terms"
+      }, {
+        token : "string",
+        regex : /[\w"\[\]]+/,
+        next : "terms"
+      }, {
         token : "text",
-        regex : /[)]/,
+        regex : /,/,
+        next : "terms"
+      }, {
+        token : "text",
+        regex : /\(/,
+        next : "terms"
+      }, {
+        token : "text",
+        regex : /\s*\)/,
         next : "start"
       } ],
 
       "boundedvariable" : [ {
-        token : "keyword.other.unit",
-        regex : /[\w-!]+/,
-        next : "dot"
-      } ],
-
-      "dot" : [ {
-        token : "text",
-        regex : /[.]/,
+        token : ["keyword.other.unit", "text"],
+        regex : /([\w-!])+(.)/,
         next : "start"
       } ],
 
       "interval" : [ {
-        token : ["text", "constant.numeric", "text", "constant.numeric", "text"],
-        regex : /\[|\(\d+,\d+\]|\)/,
+        token : ["text", "storage", "text", "storage", "text"],
+        regex : /(\[|\()(\d+)(,)(\d+)(\]|\))/,
+        next : "start"
+      }, {
+        token : "empty",
+        regex : "",
         next : "start"
       } ]
     };
 
   };
 
-  oop.inherits(MyNewHighlightRules, TextHighlightRules);
+  oop.inherits(HighlightRules, TextHighlightRules);
 
-  exports.MyNewHighlightRules = MyNewHighlightRules;
+  exports.HighlightRules = HighlightRules;
 
 });
