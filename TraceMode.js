@@ -7,7 +7,7 @@ define(function(require, exports, module) {
   var Tokenizer = require("../tokenizer").Tokenizer;
   var MatchingBraceOutdent = require("./matching_brace_outdent").MatchingBraceOutdent;
 
-  var HighlightRules = require("./FormulaHighlightRules").HighlightRules;
+  var HighlightRules = require("./TraceHighlightRules").HighlightRules;
   var BaseFoldMode = require("./folding/fold_mode").FoldMode;
 
   var Mode = function() {
@@ -34,7 +34,7 @@ define(function(require, exports, module) {
     };
 
     this.createWorker = function(session) {
-      var worker = new WorkerClient(["ace"], "ace/mode/mfotl-formula", "MfotlFormula");
+      var worker = new WorkerClient(["ace"], "ace/mode/mfotl-trace", "MfotlTrace");
       worker.attachToDocument(session.getDocument());
       worker.on("errors", function(e) {
         session.setAnnotations(e.data);
