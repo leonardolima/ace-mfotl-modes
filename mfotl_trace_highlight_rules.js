@@ -7,7 +7,7 @@ var MfotlTraceHighlightRules = function() {
 
   this.$rules = {
     "start" : [ {
-      token : ["constant.character", "storage"],
+      token : ["constant.character", "keyword.operator"],
       regex : /(@)(\d+)/,
       next : "events"
     }],
