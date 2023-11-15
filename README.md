@@ -7,7 +7,7 @@ The modes `mode-mfotl_formula`,  `mode-mfotl_signature` and `mode-mfotl_trace` a
 Simply use [Ace MFOTL](https://github.com/leonardolima/ace-mfotl), a fork of [Ace](https://github.com/ajaxorg/ace) that includes these modes.
 
 Alternatively, you can copy the `*.js` files to the `../ace/src/mode` folder in your local machine with the script `copy_modes`. From the root folder, run
-`$ ./copy_modes.sh`
+`$ ./copy_modes.sh`.
 
 ## License
 
