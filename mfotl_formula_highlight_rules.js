@@ -72,7 +72,7 @@ var MfotlFormulaHighlightRules = function() {
       next : "terms"
     }, {
       token : "string",
-      regex : /[\w"\[\]]+/,
+      regex : /[\w"\[\]\s]+/,
       next : "terms"
     }, {
       token : "text",
@@ -90,7 +90,7 @@ var MfotlFormulaHighlightRules = function() {
 
     "boundedvariable" : [ {
       token : ["keyword.other.unit", "text"],
-      regex : /([\w-!])+(.)/,
+      regex : /([\w!-]+)(.)/,
       next : "start"
     } ],
 
