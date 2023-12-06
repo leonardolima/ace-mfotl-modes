@@ -96,7 +96,7 @@ var MfotlFormulaHighlightRules = function() {
 
     "interval" : [ {
       token : ["text", "storage", "text", "storage", "text"],
-      regex : /(\[|\()(\d+)(,)(\d+|∞)(\]|\))/,
+      regex : /(\[|\()(\d+)(,)(\d+|∞|\*)(\]|\))/,
       next : "start"
     }, {
       token : "empty",
